@@ -13,7 +13,7 @@ export default function Index() {
   useEffect(() => {
     if(!navigationState.key) return;
     if(!usr) router.replace("login");
-  })
+  }, [navigationState.key ,usr]);
 
   return (
     <View
