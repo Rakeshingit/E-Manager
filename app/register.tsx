@@ -1,29 +1,95 @@
-import { Text, View, TextInput, StyleSheet, TouchableOpacity, Scroll} from "react-native";
-import { Link } from "expo-router";
-import { ScrollView } from "react-native-gesture-handler";
+import {
+  Text,
+  View,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
+import { useState } from "react";
+import { handleRegisterFB } from "../Services/Firebase/authentication";
+import { Link, useRouter } from "expo-router";
+import { useErrorWarning } from "@/contexts/ErrorWarningContext";
 
 export default function Register() {
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const router = useRouter();
+  const { showWarning, showError } = useErrorWarning();
+
+  const handleRegister = async () => {
+    if (name === "" || phone === "" || email === "" || password === "") {
+      showWarning("Please fill all the fields");
+      return;
+    }
+    if (phone.length !== 10) {
+      showWarning("Phone number must be 10 digits");
+      return;
+    }
+    if (password.length < 6) {
+      showWarning("Password must be atleast 6 characters long");
+      return;
+    }
+    const result = await handleRegisterFB({
+      name,
+      phone,
+      email,
+      password,
+      router,
+    });
+    if (result === undefined) return;
+    showError(result);
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.headText}>Create an account</Text>
       <View style={styles.innerContainer}>
-        <View style={{
-          width: "80%",
-        }}>
-        <View style={styles.inputsContainer}>
-        <TextInput  style={styles.inputs} placeholder="Name"/>
-        <TextInput style={styles.inputs} placeholder="Phone No."/>
-        <TextInput  style={styles.inputs} placeholder="Email"/>
-        <TextInput style={styles.inputs} placeholder="Password"/>
-        </View>
-        <TouchableOpacity style={styles.loginBtn}>
-        <Text style={{color: "#ffffff"}}>Register</Text>
-        </TouchableOpacity>
-        <Link href={"/login"} style={{textDecorationLine: "underline", cursor: "pointer"}}>Back to login</Link>
+        <View
+          style={{
+            width: "80%",
+          }}
+        >
+          <View style={styles.inputsContainer}>
+            <TextInput
+              onChangeText={setName}
+              style={styles.inputs}
+              placeholder="Name"
+            />
+            <TextInput
+              onChangeText={setPhone}
+              style={styles.inputs}
+              placeholder="Phone No."
+            />
+            <TextInput
+              onChangeText={setEmail}
+              style={styles.inputs}
+              placeholder="Email"
+            />
+            <TextInput
+              onChangeText={setPassword}
+              secureTextEntry
+              style={styles.inputs}
+              placeholder="Password"
+            />
+          </View>
+          <TouchableOpacity
+            onPress={() => handleRegister()}
+            style={styles.loginBtn}
+          >
+            <Text style={{ color: "#ffffff" }}>Register</Text>
+          </TouchableOpacity>
+          <Link
+            href={"/login"}
+            style={{ textDecorationLine: "underline", cursor: "pointer" }}
+          >
+            Back to login
+          </Link>
         </View>
       </View>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -60,16 +126,16 @@ const styles = StyleSheet.create({
   },
   loginBtn: {
     backgroundColor: "#101010",
-          borderRadius: 5,
-          padding: 20,
-          width: "100%",
-          alignItems: "center",
-          marginTop: 25,
-          marginBottom: 10,
+    borderRadius: 5,
+    padding: 20,
+    width: "100%",
+    alignItems: "center",
+    marginTop: 25,
+    marginBottom: 10,
   },
   forgotPasswrodText: {
     marginTop: 10,
     alignSelf: "flex-end",
     // width: "80%",
-  }
-})
+  },
+});

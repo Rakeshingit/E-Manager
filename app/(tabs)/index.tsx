@@ -1,30 +1,37 @@
-import React, {useEffect} from "react";
+import React, { useEffect, useContext } from "react";
 
-import { Text, View} from "react-native";
-import {Link, router, useRootNavigationState} from "expo-router";
+import { Text, View, ActivityIndicator } from "react-native";
+import { Link, useRouter, useRootNavigationState } from "expo-router";
 
-import {AuthContext} from "../../contexts/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext";
+import { useErrorWarning } from "../../contexts/ErrorWarningContext";
 
 export default function Index() {
-  const usr = AuthContext();
+  const router = useRouter();
+  const authContext = useContext(AuthContext);
   const navigationState = useRootNavigationState();
-  console.log(`Hi ${usr?.name}`);
 
   useEffect(() => {
-    if(!navigationState.key) return;
-    if(!usr) router.replace("login");
-  }, [navigationState.key ,usr]);
+    if (!navigationState.key || authContext?.loading) return;
+    if (!authContext?.user) {
+      router.replace("/login");
+    }
+  }, [authContext?.user, authContext?.loading, router, navigationState.key]);
+
+  const { showError } = useErrorWarning();
 
   return (
     <View
-    style={{
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-    }}
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
     >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-      <Link href={"/login"}>Go to another screen</Link>
+      <Text onPress={() => showError("Hi")}>
+        Edit app/index.tsx to edit this screen.
+      </Text>
+      <Text>If logged in {authContext?.user?.email}</Text>
     </View>
   );
 }
