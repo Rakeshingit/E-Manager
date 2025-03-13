@@ -39,8 +39,10 @@ export default function Register() {
       password,
       router,
     });
-    if (result === undefined) return;
-    showError(result);
+    if (result === undefined) {
+      showError(String(result));
+      return;
+    }
   };
   return (
     <View style={styles.container}>
@@ -61,6 +63,7 @@ export default function Register() {
               onChangeText={setPhone}
               style={styles.inputs}
               placeholder="Phone No."
+              keyboardType="number-pad"
             />
             <TextInput
               onChangeText={setEmail}
@@ -74,11 +77,21 @@ export default function Register() {
               placeholder="Password"
             />
           </View>
+          <Text style={styles.additionalText}>
+            By clicking Agree and Continue below, I agree to{" "}
+            <Text style={styles.additionalTextHighlights}>
+              Terms of Services
+            </Text>{" "}
+            and{" "}
+            <Text style={styles.additionalTextHighlights}>Privacy policy</Text>
+          </Text>
           <TouchableOpacity
             onPress={() => handleRegister()}
             style={styles.loginBtn}
           >
-            <Text style={{ color: "#ffffff" }}>Register</Text>
+            <Text style={{ color: "#ffffff", fontSize: 15 }}>
+              Agree and Continue
+            </Text>
           </TouchableOpacity>
           <Link
             href={"/login"}
@@ -97,14 +110,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#ffffff",
+    backgroundColor: "#F8F9FA",
   },
   innerContainer: {
-    // flex: 1,
     alignItems: "center",
-    // justifyContent: "space-around",
     borderRadius: 15,
-    backgroundColor: "#D9D9D9",
+    // backgroundColor: "#D9D9D9",
+    backgroundColor: "#ffffff",
     width: "90%",
     paddingBlock: 80,
   },
@@ -118,24 +130,40 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingTop: 17,
     paddingBottom: 17,
-    backgroundColor: "white",
+    // backgroundColor: "white",
+    // backgroundColor: "#F8F9FA",
+    borderColor: "#D3D3D3",
+    borderWidth: 2,
   },
   inputsContainer: {
     width: "100%",
     gap: 20,
   },
   loginBtn: {
-    backgroundColor: "#101010",
+    // backgroundColor: "#101010",
+    backgroundColor: "#3F51B5",
+
     borderRadius: 5,
     padding: 20,
     width: "100%",
     alignItems: "center",
     marginTop: 25,
     marginBottom: 10,
+    fontSize: 30,
   },
   forgotPasswrodText: {
     marginTop: 10,
     alignSelf: "flex-end",
-    // width: "80%",
+  },
+  additionalText: {
+    marginTop: 15,
+    fontSize: 12.5,
+    color: "#757575",
+    fontWeight: 500,
+  },
+  additionalTextHighlights: {
+    color: "#212121",
+    cursor: "pointer",
+    fontWeight: 700,
   },
 });
