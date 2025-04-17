@@ -25,12 +25,46 @@ const FontSizes = {
     SMALL_LABEL: normalize(10),
 }
 
+const Spacing = {
+
+}
+
 const FontWeights = {
 
 }
+
+export enum EventStatus {
+  READY = "Ready",
+  COMPLETED = "Completed",
+  PARTIALLY_PAID = "Partially Paid",
+  SETTLED = "Settled",
+}
+
+const EventPills = {
+    [EventStatus.READY]: {
+        backgroundColor: "#2ECC71",
+        color: "#D5F6E3",
+    },
+    [EventStatus.COMPLETED]: {
+        backgroundColor: "#27AE60",
+        color: "#D5F6E3",
+    },
+    [EventStatus.PARTIALLY_PAID]: {
+        backgroundColor: "#F39C12",
+        color: "#FDEBCE",
+    },
+    [EventStatus.SETTLED]: {
+        backgroundColor: "#5D6D7E",
+        color: "#E2E5E9",
+    },
+
+}
+
 
 export const Theme = {
     Colors,
     FontSizes,
     FontWeights,
+    Spacing,
+    EventPills,
 };
