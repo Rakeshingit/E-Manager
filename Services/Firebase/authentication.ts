@@ -8,11 +8,12 @@ import { Router } from "expo-router";
 import { useErrorWarning } from '@/contexts/ErrorWarningContext';
 import {AuthContextType} from "../../contexts/AuthContext";
 
-type RegistrationFormType = {
+export interface RegistrationFormType{
   name: string;
   phone: string;
   email: string;
   password: string;
+  role: string;
   router: Router;
 };
 
@@ -65,7 +66,7 @@ export const handleLogout = async () => {
   }
 }
 
-export const handleRegisterFB = async ({name, phone, email, password, router}: RegistrationFormType) => {
+export const handleRegisterFB = async ({name, phone, email, password, role, router}: RegistrationFormType) => {
     try{
 
       const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
@@ -76,6 +77,7 @@ export const handleRegisterFB = async ({name, phone, email, password, router}: R
         name,
         phone,
         email,
+        role,
         createdAt: new Date(),
       });
       console.log("User registered successfully");
@@ -99,9 +101,12 @@ export const handleRegisterFB = async ({name, phone, email, password, router}: R
               console.log("Weak password");
               return "Password must be atleast 6 characters long";
               break;
-              default:
-                console.log("Could not register due to: "+e);
-                return "Could not register. Please try again later";
+            case AuthErrorCodes.INVALID_PASSWORD:
+              console.log("Invalid password");
+              return `${e.message}`;
+            default:
+              console.log("Could not register due to: " +e.message);
+              return "Could not register. Please try again later";
       }
     }
   }

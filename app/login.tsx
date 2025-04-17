@@ -9,6 +9,7 @@ import { handleLoginFB } from "../Services/Firebase/authentication";
 import { useState } from "react";
 import { Link, useRouter } from "expo-router";
 import { useErrorWarning } from "@/contexts/ErrorWarningContext";
+import { Theme } from "@/constants/theme";
 
 export default function Login({ navigation }: any) {
   const [email, setEmail] = useState("");
@@ -55,13 +56,23 @@ export default function Login({ navigation }: any) {
             onPress={() => handleLogin()}
             style={styles.loginBtn}
           >
-            <Text style={{ color: "#ffffff" }}>Login</Text>
+            <Text
+              style={{
+                color: "#ffffff",
+                fontSize: Theme.FontSizes.BUTTON_TEXT,
+              }}
+            >
+              Login
+            </Text>
           </TouchableOpacity>
           <Text>
             or{" "}
             <Link
               href={"/register"}
-              style={{ textDecorationLine: "underline", cursor: "pointer" }}
+              style={{
+                textDecorationLine: "underline",
+                cursor: "pointer",
+              }}
             >
               Create a new account
             </Link>
@@ -77,19 +88,19 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#ffffff",
+    backgroundColor: Theme.Colors.background,
   },
   innerContainer: {
     // flex: 1,
     alignItems: "center",
     // justifyContent: "space-around",
     borderRadius: 15,
-    backgroundColor: "#D9D9D9",
+    backgroundColor: Theme.Colors.white,
     width: "90%",
     paddingBlock: 80,
   },
   headText: {
-    fontSize: 40,
+    fontSize: Theme.FontSizes.H1,
     marginBottom: 50,
   },
   inputs: {
@@ -98,14 +109,16 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingTop: 17,
     paddingBottom: 17,
-    backgroundColor: "white",
+    fontSize: Theme.FontSizes.TEXT_INPUT,
+    borderColor: Theme.Colors.borderGray,
+    borderWidth: 2,
   },
   inputsContainer: {
     width: "100%",
     gap: 20,
   },
   loginBtn: {
-    backgroundColor: "#101010",
+    backgroundColor: Theme.Colors.primary,
     borderRadius: 5,
     padding: 20,
     width: "100%",
@@ -115,6 +128,6 @@ const styles = StyleSheet.create({
   forgotPasswrodText: {
     marginTop: 10,
     alignSelf: "flex-end",
-    // width: "80%",
+    color: Theme.Colors.textBlack,
   },
 });

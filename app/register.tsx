@@ -9,6 +9,7 @@ import { useState } from "react";
 import { handleRegisterFB } from "../Services/Firebase/authentication";
 import { Link, useRouter } from "expo-router";
 import { useErrorWarning } from "@/contexts/ErrorWarningContext";
+import { Theme } from "@/constants/theme";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -37,12 +38,11 @@ export default function Register() {
       phone,
       email,
       password,
+      role: "user",
       router,
     });
-    if (result === undefined) {
-      showError(String(result));
-      return;
-    }
+    if (result === undefined) return;
+    showError(String(result));
   };
   return (
     <View style={styles.container}>
@@ -87,9 +87,14 @@ export default function Register() {
           </Text>
           <TouchableOpacity
             onPress={() => handleRegister()}
-            style={styles.loginBtn}
+            style={styles.registerBtn}
           >
-            <Text style={{ color: "#ffffff", fontSize: 15 }}>
+            <Text
+              style={{
+                color: "#ffffff",
+                fontSize: Theme.FontSizes.BUTTON_TEXT,
+              }}
+            >
               Agree and Continue
             </Text>
           </TouchableOpacity>
@@ -110,46 +115,46 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F8F9FA",
+    backgroundColor: Theme.Colors.background,
   },
   innerContainer: {
     alignItems: "center",
     borderRadius: 15,
     // backgroundColor: "#D9D9D9",
-    backgroundColor: "#ffffff",
+    backgroundColor: Theme.Colors.white,
     width: "90%",
     paddingBlock: 80,
   },
   headText: {
-    fontSize: 40,
+    fontSize: Theme.FontSizes.H1,
     marginBottom: 50,
   },
   inputs: {
     width: "100%",
+    fontSize: Theme.FontSizes.TEXT_INPUT,
     borderRadius: 10,
     paddingLeft: 15,
     paddingTop: 17,
     paddingBottom: 17,
     // backgroundColor: "white",
     // backgroundColor: "#F8F9FA",
-    borderColor: "#D3D3D3",
+    borderColor: Theme.Colors.borderGray,
     borderWidth: 2,
   },
   inputsContainer: {
     width: "100%",
     gap: 20,
   },
-  loginBtn: {
+  registerBtn: {
     // backgroundColor: "#101010",
-    backgroundColor: "#3F51B5",
-
+    backgroundColor: Theme.Colors.primary,
     borderRadius: 5,
     padding: 20,
     width: "100%",
     alignItems: "center",
     marginTop: 25,
     marginBottom: 10,
-    fontSize: 30,
+    // fontSize: Theme.FontSizes.BUTTON_TEXT,
   },
   forgotPasswrodText: {
     marginTop: 10,
@@ -158,11 +163,11 @@ const styles = StyleSheet.create({
   additionalText: {
     marginTop: 15,
     fontSize: 12.5,
-    color: "#757575",
+    color: Theme.Colors.textGray,
     fontWeight: 500,
   },
   additionalTextHighlights: {
-    color: "#212121",
+    color: Theme.Colors.primary,
     cursor: "pointer",
     fontWeight: 700,
   },
