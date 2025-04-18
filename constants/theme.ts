@@ -35,6 +35,7 @@ const FontWeights = {
 
 export enum EventStatus {
   READY = "Ready",
+  OPEN = "Open",
   COMPLETED = "Completed",
   PARTIALLY_PAID = "Partially Paid",
   SETTLED = "Settled",
@@ -44,6 +45,10 @@ const EventPills = {
     [EventStatus.READY]: {
         backgroundColor: "#2ECC71",
         color: "#D5F6E3",
+    },
+    [EventStatus.OPEN]: {
+        backgroundColor: "#3498DB",
+        color: "#D4E9F7",
     },
     [EventStatus.COMPLETED]: {
         backgroundColor: "#27AE60",

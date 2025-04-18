@@ -8,18 +8,83 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Theme } from "@/constants/theme";
+import React, { useState } from "react";
 
-const EventSections = () => {
+interface EventSectionsProps {
+  selected: string;
+  setSelected: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const EventSections: React.FC<EventSectionsProps> = ({
+  selected,
+  setSelected,
+}) => {
+  // const [selectedLocal, setSelectedLocal] = useState("Current");
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.cells}>
-        <Text style={{ fontSize: Theme.FontSizes.BODY }}>Current</Text>
+      <TouchableOpacity
+        style={[
+          styles.cells,
+          {
+            backgroundColor:
+              selected === "Current"
+                ? Theme.Colors.primary
+                : Theme.Colors.white,
+          },
+        ]}
+        onPress={() => setSelected("Current")}
+      >
+        <Text
+          style={[
+            { fontSize: Theme.FontSizes.BODY },
+            { color: selected === "Current" ? Theme.Colors.white : "" },
+          ]}
+        >
+          Current
+        </Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.cells}>
-        <Text style={{ fontSize: Theme.FontSizes.BODY }}>Upcoming</Text>
+      <TouchableOpacity
+        style={[
+          styles.cells,
+          {
+            backgroundColor:
+              selected === "Upcoming"
+                ? Theme.Colors.primary
+                : Theme.Colors.white,
+          },
+        ]}
+        onPress={() => setSelected("Upcoming")}
+      >
+        <Text
+          style={[
+            { fontSize: Theme.FontSizes.BODY },
+            { color: selected === "Upcoming" ? Theme.Colors.white : "" },
+          ]}
+        >
+          Upcoming
+        </Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.cells}>
-        <Text style={{ fontSize: Theme.FontSizes.BODY }}>Past</Text>
+      <TouchableOpacity
+        style={[
+          styles.cells,
+          {
+            backgroundColor:
+              selected === "Past" ? Theme.Colors.primary : Theme.Colors.white,
+            transitionProperty: "background-color",
+            transitionDuration: "10s",
+            transitionTimingFunction: "ease-in-out",
+          },
+        ]}
+        onPress={() => setSelected("Past")}
+      >
+        <Text
+          style={[
+            { fontSize: Theme.FontSizes.BODY },
+            { color: selected === "Past" ? Theme.Colors.white : "" },
+          ]}
+        >
+          Past
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -27,7 +92,7 @@ const EventSections = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "grey",
+    backgroundColor: Theme.Colors.white,
     height: 44,
     // width: 340,
     borderRadius: 28,
@@ -37,11 +102,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 2,
   },
   cells: {
-    backgroundColor: Theme.Colors.primary,
     flex: 1,
     paddingVertical: 10,
     borderRadius: 28,
     alignItems: "center",
+    transitionProperty: "background-color",
+    transitionDuration: "1s",
+    transitionTimingFunction: "ease-in-out",
   },
 });
 

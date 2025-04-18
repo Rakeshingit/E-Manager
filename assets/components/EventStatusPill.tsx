@@ -5,14 +5,26 @@ import { EventStatus } from "@/constants/theme";
 
 interface StatusPillProps {
   status: EventStatus;
+  workersRequired: number;
+  workersEnrolled: number;
   //   style: { backgroundColor: string; color: string };
 }
 
-const EventStatusPill: React.FC<StatusPillProps> = ({ status }) => {
+const EventStatusPill: React.FC<StatusPillProps> = ({
+  status,
+  workersEnrolled,
+  workersRequired,
+}) => {
   const pillStyle = Theme.EventPills[status];
   return (
     <View style={[styles.pill, { backgroundColor: pillStyle.backgroundColor }]}>
-      <Text style={[styles.text]}>{status}</Text>
+      <Text style={[styles.text]}>
+        {status === "Open"
+          ? `${workersEnrolled}/${workersRequired}`
+          : status === "Ready"
+          ? `${status} (${workersEnrolled})`
+          : status}
+      </Text>
     </View>
   );
 };
